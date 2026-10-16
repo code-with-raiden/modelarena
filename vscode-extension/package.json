@@ -1,0 +1,48 @@
+{
+  "name": "modelarena",
+  "displayName": "ModelArena — AI Model Evaluator",
+  "description": "Evaluate any text across multiple free AI models, right from VS Code.",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Other"],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "modelarena.evaluate",
+        "title": "Evaluate with ModelArena",
+        "category": "ModelArena"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "modelarena.evaluate",
+          "when": "editorHasSelection",
+          "group": "modelarena"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ModelArena",
+      "properties": {
+        "modelarena.apiBase": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "ModelArena backend URL"
+        },
+        "modelarena.anthropicApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your Anthropic API key"
+        },
+        "modelarena.models": {
+          "type": "array",
+          "default": ["claude-haiku-5-5", "gpt-4o-mini", "llama-3.3-70b-versatile"],
+          "description": "Models to evaluate against"
+        }
+      }
+    }
+  }
+}
