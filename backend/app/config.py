@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str = ""
     MISTRAL_API_KEY: str = ""
     TOGETHER_API_KEY: str = ""
+    OPENROUTER_API_KEY: str = ""
+    OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
 
     class Config:
         env_file = ".env"
