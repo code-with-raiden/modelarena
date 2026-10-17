@@ -1,0 +1,26 @@
+.wrap { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.toolbar { display: flex; gap: 4px; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+.toolBtn {
+  padding: 3px 9px; border-radius: 4px; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); font-size: 10px; font-weight: 500;
+  cursor: pointer; transition: all 0.12s;
+}
+.toolBtn:hover { background: var(--surface); color: var(--text); }
+
+.list { max-height: 280px; overflow-y: auto; }
+.groupLabel { font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--dim); padding: 6px 10px 3px; }
+
+.row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; cursor: pointer; transition: background 0.1s;
+}
+.row:hover { background: var(--surface); }
+.row.checked { background: var(--accent-dim); }
+
+.checkbox { width: 13px; height: 13px; accent-color: var(--accent); cursor: pointer; }
+.icon { font-size: 13px; }
+.name { font-size: 11px; font-weight: 500; flex: 1;
+  font-family: 'JetBrains Mono', monospace; }
+.provider { font-size: 10px; color: var(--dim); }
+.loading { padding: 20px; text-align: center; color: var(--muted); font-size: 12px; }

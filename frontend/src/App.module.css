@@ -1,0 +1,44 @@
+.layout { display: flex; height: 100vh; overflow: hidden; }
+
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 0;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 8px;
+  padding: 18px 16px;
+  font-size: 15px; font-weight: 500;
+  border-bottom: 1px solid var(--border);
+}
+.logoIcon { color: var(--accent); font-size: 20px; }
+.logo strong { color: var(--accent); }
+
+.nav { padding: 10px 8px; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+
+.navBtn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 6px;
+  background: transparent; border: none;
+  color: var(--muted); font-size: 13px; font-weight: 500;
+  transition: all 0.12s; width: 100%; text-align: left;
+}
+.navBtn:hover { background: var(--surface2); color: var(--text); }
+.navBtn.active { background: var(--accent-dim); color: var(--accent); }
+
+.sidebarBottom {
+  padding: 12px 8px;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.docsLink {
+  display: block; padding: 7px 10px; border-radius: 6px;
+  font-size: 12px; color: var(--muted);
+  transition: all 0.12s;
+}
+.docsLink:hover { background: var(--surface2); color: var(--text); }
+
+.main { flex: 1; overflow-y: auto; }

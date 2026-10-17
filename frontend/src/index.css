@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --border: #30363d;
+  --accent: #58a6ff;
+  --accent-dim: #1f3a5f;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --purple: #bc8cff;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --dim: #6e7681;
+  --radius: 8px;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select { font-family: inherit; }
+a { color: var(--accent); text-decoration: none; }

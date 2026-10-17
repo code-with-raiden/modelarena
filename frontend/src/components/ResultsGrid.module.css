@@ -1,0 +1,60 @@
+.summary {
+  display: flex; gap: 0;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 24px;
+  margin-bottom: 12px;
+}
+.stat { flex: 1; text-align: center; }
+.statVal { font-size: 20px; font-weight: 600; color: var(--text); }
+.statLabel { font-size: 10px; color: var(--dim); margin-top: 2px; }
+
+.insight {
+  padding: 10px 16px; border-radius: 6px;
+  background: rgba(88,166,255,0.06); border: 1px solid rgba(88,166,255,0.15);
+  font-size: 12px; color: var(--muted); margin-bottom: 16px; line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; overflow: hidden;
+  transition: border-color 0.15s;
+}
+.card.winner { border-color: var(--accent); }
+
+.cardHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.modelName {
+  font-size: 13px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.medal { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+.gold   { background: #3a2e00; color: #e3b341; }
+.silver { background: #252830; color: #8b949e; }
+.bronze { background: #2e1e0a; color: #d29922; }
+.other  { background: var(--surface2); color: var(--dim); }
+
+.overall { display: flex; align-items: baseline; gap: 4px; margin-bottom: 14px; }
+.outOf { font-size: 13px; color: var(--muted); }
+
+.bars { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.bar {}
+.barLabel {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--muted); margin-bottom: 3px;
+}
+.barBg { height: 4px; background: var(--surface2); border-radius: 2px; }
+.barFill { height: 4px; border-radius: 2px; transition: width 0.6s ease; }
+
+.strength { font-size: 10px; color: var(--green); margin-top: 6px; line-height: 1.5; }
+.weakness { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+.latency { font-size: 10px; color: var(--dim); margin-top: 8px; }
