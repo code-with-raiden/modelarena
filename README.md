@@ -1,37 +1,66 @@
 # ⬡ ModelArena
 
 **Universal AI Model Evaluation Platform**  
-One Python backend. Slack, VS Code, Teams, CLI, and REST API — all in one.
+One key (OpenRouter) → 16+ models → scored results in seconds.
 
 ---
 
-## Quick Start
+## 🚀 Quickest way to run — GitHub Codespaces (zero local setup)
 
-```bash
-# 1. Clone & setup
-git clone https://github.com/you/modelarena
-cd modelarena
-cp .env.example .env          # fill in your API keys
+1. Go to **[github.com/code-with-raiden/modelarena](https://github.com/code-with-raiden/modelarena)**
+2. Click the green **`<> Code`** button
+3. Click **`Codespaces`** tab → **`Create codespace on main`**
+4. Wait ~2 min for setup to complete automatically
+5. Add your OpenRouter key to the `.env` file that appears:
+   ```
+   OPENROUTER_API_KEY=sk-or-v1-...
+   ```
+6. Open a terminal and run:
+   ```bash
+   bash .devcontainer/launch.sh
+   ```
+7. Click the pop-up to open port **5173** in your browser — done! 🎉
 
-# 2. Start services (postgres + redis + api)
-cd deploy
-docker-compose up -d
+Everything runs online. Edit code in the browser VS Code, save, and it hot-reloads.
 
-# 3. Test the API
-curl -X POST http://localhost:8000/evaluate/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Explain recursion simply",
-    "models": ["claude-haiku-5-5", "gpt-4o-mini"],
-    "criteria": ["Accuracy", "Clarity"],
-    "api_keys": {"anthropic": "sk-ant-...", "openai": "sk-..."}
-  }'
+---
 
-# 4. Use the CLI
-cd cli
-pip install typer rich httpx
-python main.py eval "Explain recursion" --models claude-haiku-5-5,gpt-4o-mini
-```
+## 🌐 Production URLs (after deploy)
+
+| Service  | Platform | URL |
+|----------|----------|-----|
+| Backend  | Railway  | `https://modelarena-api.railway.app` |
+| Frontend | Vercel   | `https://modelarena.vercel.app` |
+| API Docs | Railway  | `https://modelarena-api.railway.app/docs` |
+
+---
+
+## Deploy Backend → Railway (free tier)
+
+1. Go to [railway.app](https://railway.app) → **New Project**
+2. Click **Deploy from GitHub repo** → select `code-with-raiden/modelarena`
+3. Set root directory to `backend`
+4. Railway auto-detects the Dockerfile and deploys
+5. Add environment variables in Railway dashboard:
+   ```
+   OPENROUTER_API_KEY=sk-or-v1-...
+   DATABASE_URL=<Railway provides this automatically with Postgres plugin>
+   REDIS_URL=<Railway provides this with Redis plugin>
+   SECRET_KEY=<generate a random string>
+   ```
+6. Add **Postgres** plugin + **Redis** plugin from Railway dashboard
+7. Copy your Railway backend URL
+
+## Deploy Frontend → Vercel (free tier)
+
+1. Go to [vercel.com](https://vercel.com) → **Add New Project**
+2. Import `code-with-raiden/modelarena` from GitHub
+3. Set root directory to `frontend`
+4. Add environment variable:
+   ```
+   VITE_API_BASE=https://your-backend.railway.app
+   ```
+5. Click Deploy — done in 30 seconds
 
 ---
 
@@ -39,95 +68,65 @@ python main.py eval "Explain recursion" --models claude-haiku-5-5,gpt-4o-mini
 
 ```
 modelarena/
+├── .devcontainer/          ← GitHub Codespaces config (online dev)
+│   ├── devcontainer.json
+│   ├── setup.sh            ← auto-runs on Codespace creation
+│   └── launch.sh           ← starts both servers with one command
 ├── backend/
 │   ├── app/
-│   │   ├── main.py              # FastAPI app
-│   │   ├── config.py            # Settings (.env)
-│   │   ├── api/                 # Route handlers
-│   │   │   ├── routes_eval.py   # POST /evaluate
-│   │   │   ├── routes_models.py # GET /models
-│   │   │   ├── routes_auth.py   # Auth (Phase 2)
-│   │   │   └── routes_export.py # CSV export (Phase 2)
-│   │   ├── core/
-│   │   │   ├── router.py        # Parallel model dispatch
-│   │   │   └── evaluator.py     # Claude scoring agent
-│   │   ├── providers/
-│   │   │   ├── __init__.py      # Model registry + factory
-│   │   │   ├── base.py          # Abstract BaseProvider
-│   │   │   ├── anthropic.py
-│   │   │   ├── openai.py
-│   │   │   ├── groq.py
-│   │   │   └── google.py
-│   │   ├── integrations/
-│   │   │   ├── slack_bot.py     # Slack /eval command
-│   │   │   └── teams_bot.py     # MS Teams (Phase 2)
-│   │   └── db/
-│   │       └── session.py       # SQLAlchemy async
+│   │   ├── main.py         ← FastAPI entry point
+│   │   ├── config.py       ← settings from .env
+│   │   ├── api/            ← REST routes
+│   │   ├── core/           ← parallel router + eval agent
+│   │   ├── providers/      ← OpenRouter, Anthropic, OpenAI, Groq, Google, Mistral
+│   │   └── integrations/   ← Slack bot
 │   ├── requirements.txt
-│   └── Dockerfile
-├── frontend/                    # React dashboard (Phase 2)
-├── vscode-extension/            # VS Code plugin
-│   ├── extension.js
-│   └── package.json
-├── cli/
-│   └── main.py                  # Typer CLI
+│   ├── Dockerfile
+│   ├── railway.toml        ← Railway deploy config
+│   └── Procfile
+├── frontend/
+│   ├── src/
+│   │   ├── pages/          ← EvalPage, HistoryPage
+│   │   ├── components/     ← ModelSelector, CriteriaSelector, ResultsGrid
+│   │   └── api/client.js   ← axios → backend
+│   ├── vite.config.js
+│   └── vercel.json         ← Vercel deploy config
+├── vscode-extension/       ← VS Code plugin
+├── cli/main.py             ← Typer CLI
 ├── deploy/
-│   └── docker-compose.yml
-├── .env.example
-└── README.md
+│   └── docker-compose.yml  ← local postgres + redis
+└── .env.example            ← copy to .env, fill in keys
 ```
 
 ---
 
-## API Reference
+## API Keys needed
 
-### `POST /evaluate/`
-```json
-{
-  "prompt": "Your question here",
-  "models": ["claude-haiku-5-5", "gpt-4o-mini", "llama-3.3-70b-versatile"],
-  "criteria": ["Accuracy", "Clarity", "Depth", "Conciseness"],
-  "api_keys": {
-    "anthropic": "sk-ant-...",
-    "openai": "sk-...",
-    "groq": "gsk_..."
-  }
-}
-```
+Only **one key** is required to run everything:
 
-### `GET /models/`
-Returns all registered models and which API key they need.
+| Key | Where to get | What it unlocks |
+|-----|-------------|-----------------|
+| `OPENROUTER_API_KEY` | [openrouter.ai/keys](https://openrouter.ai/keys) | All 16 models |
 
----
+Optional (only if you want direct provider access without OpenRouter):
 
-## Integrations
-
-| Surface       | Status   | How                                      |
-|---------------|----------|------------------------------------------|
-| REST API      | ✅ Ready  | POST /evaluate/ with your API keys       |
-| CLI           | ✅ Ready  | `python cli/main.py eval "..."`          |
-| Slack         | ✅ Ready  | `/eval <prompt>` slash command           |
-| VS Code       | ✅ Ready  | Right-click selected text                |
-| MS Teams      | 🔜 Phase2 | Bot Framework adaptive cards             |
-| GitHub Action | 🔜 Phase2 | CI pipeline evaluation                   |
-| Discord       | 🔜 Phase3 | `!eval` command                          |
-
----
-
-## Adding a New Model
-Edit `backend/app/providers/__init__.py`:
-```python
-MODEL_REGISTRY["new-model-id"] = (NewProvider, "api_key_name")
-```
-That's it — the new model appears in `/models/` and is available for evaluation.
+| Key | Provider |
+|-----|----------|
+| `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com) |
+| `OPENAI_API_KEY` | [platform.openai.com](https://platform.openai.com) |
+| `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) |
+| `GOOGLE_API_KEY` | [aistudio.google.com](https://aistudio.google.com) |
 
 ---
 
 ## Tech Stack
-- **FastAPI** + **Uvicorn** — async Python API server
-- **SQLAlchemy 2.0 async** + **PostgreSQL** — eval history
-- **Redis** + **ARQ** — job queue for long evaluations
-- **anthropic / openai / groq / google-generativeai** — provider SDKs
-- **slack-bolt** — Slack integration
-- **Typer + Rich** — CLI
-- **React + Vite** — web dashboard (Phase 2)
+
+- **FastAPI** + **Uvicorn** — async Python backend
+- **SQLAlchemy 2.0** + **PostgreSQL** — eval history
+- **Redis** + **ARQ** — async job queue
+- **React 18** + **Vite** — web dashboard
+- **Recharts** — radar charts in results
+- **OpenRouter** — unified access to 16+ models
+- **Docker Compose** — local dev stack
+- **GitHub Codespaces** — online development
+- **Railway** + **Vercel** — production hosting

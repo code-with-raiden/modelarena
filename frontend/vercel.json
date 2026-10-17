@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "RAILWAY_BACKEND_URL/:path*"
+    }
+  ],
+  "env": {
+    "VITE_API_BASE": "@modelarena_api_base"
+  }
+}
